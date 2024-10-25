@@ -1,0 +1,98 @@
+{
+    "allMovies": [
+        {
+            "title": "Mr. Bachchan",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Mr._Bachchan_film_poster.jpg/220px-Mr._Bachchan_film_poster.jpg",
+            "description": "The film is inspired by the real-life income tax raid conducted on Indian industrialist Sardar Inder Singh",
+            "genre": "Soundtrack",
+            "rating": 9,
+            "year": 2024,
+            "size": 500,
+            "trailerLink":"https://youtu.be/L8-Sa6pbbLg?si=mhJm5ESY1gY98ta_",
+            "playLink": "https://youtu.be/L8-Sa6pbbLg?si=mhJm5ESY1gY98ta_",
+            "downloadLink": "https://youtu.be/L8-Sa6pbbLg?si=mhJm5ESY1gY98ta_",
+            "id": 1
+        },
+        {
+            "title": " Double iSmart",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Double_iSmart.jpg/220px-Double_iSmart.jpg",
+            "description": "Big Bull, a notorious assassin, wants to achieve immortality and decides to transfer his memories to \"iSmart\" Shankar",
+            "genre": "Action,Thriller,Adventure,Science fiction",
+            "rating": 2.9,
+            "year": 2024,
+            "playLink": "https://youtu.be/fPFt_okbneA?si=csNWTAbEWbHj0rWT",
+            "downloadLink": "https://youtu.be/fPFt_okbneA?si=csNWTAbEWbHj0rWT",
+            "id": 2
+        },
+        {
+            "title": "Eagle",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Eagle_2024_poster.jpg/220px-Eagle_2024_poster.jpg",
+            "description": "Sahadev Varma alias Eagle, an infamous assassin, goes on a mission to bust down illegal arms trade by disguising himself as a cotton farmer in Talakona and intercepting all the illegal arms transactions from there",
+            "genre": "Action,Thriller,Adventure",
+            "rating": 6,
+            "year": 2024,
+            "playLink": "https://youtu.be/p7tu9341OuM?si=gXzqRgVhJ5E-3MFi",
+            "downloadLink": "https://youtu.be/p7tu9341OuM?si=gXzqRgVhJ5E-3MFi",
+            "id": 3
+        },
+        {
+            "title": "Devara: Part 1",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f0/Devara_Part_1.jpg/220px-Devara_Part_1.jpg",
+            "description": "Devara had a change of heart and decided to stop their smuggling operations, which was not liked by the other chieftains, including Bhaira",
+            "genre": "Action,Thriller,Adventure,Drama,Thriller",
+            "rating": 6.5,
+            "year": 2024,
+            "playLink": "https://youtu.be/5vsOv_bcnhs?si=_caWM1cgEbV5XjE6",
+            "downloadLink": "D:/2024/MrBachchan.mkv",
+            "id": 4
+        }
+    ],
+    "trending": [
+        {
+            "title": "Saripodhaa Sanivaaram",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d9/Saripodhaa_Sanivaaram.jpg/220px-Saripodhaa_Sanivaaram.jpg",
+            "description": "Surya is an insurance agent at NLIC, a public sector firm, struggling with significant anger management issues. As a child, his mother, Chayadevi, made him promise to channel his anger only on one specific day each week",
+            "genre": "Action,Thriller,Adventure",
+            "rating": 7.2,
+            "year": 2024,
+            "playLink": "https://youtu.be/dkx07ZvjKE4?si=g07RSpVZQx38txwk",
+            "downloadLink": "https://youtu.be/dkx07ZvjKE4?si=g07RSpVZQx38txwk",
+            "id": 1
+        },
+        {
+            "title": "Tillu Square",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/2/26/Tillu_Square_Teaser.jpeg/220px-Tillu_Square_Teaser.jpeg",
+            "description": "After escaping with drug lord Shannon's money,[N 1] Tillu sets up Tillu Events, an event management company, which organizes DJs for weddings and parties.",
+            "genre": "Action,Thriller,Crime,comedy",
+            "rating": 6.7,
+            "year": 2024,
+            "playLink": "https://youtu.be/JrdixTnMl8E?si=7QtcaUGbyh6oJNVH",
+            "downloadLink": "https://youtu.be/JrdixTnMl8E?si=7QtcaUGbyh6oJNVH",
+            "id": 2
+        },
+        {
+            "title": "Raayan",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/e/e4/Raayan_poster.jpg",
+            "description": "Kathavaraayan \"Raayan\", a food-truck owner in North Chennai, lives with his siblings consisting of two younger brothers Muthuvelraayan \"Muthu\" and Manickavelraayan \"Manickam\" and younger sister Durga, whom Raayan dotes on",
+            "genre": "Action,Drama",
+            "rating": 9,
+            "year": 2024,
+            "playLink": "https://youtu.be/gk6Jri1kGTs?si=Kchz5sdD5XF1rPnz",
+            "downloadLink": "https://youtu.be/gk6Jri1kGTs?si=Kchz5sdD5XF1rPnz",
+            "id": 3
+        }
+    ],
+    "topRated": [
+        {
+            "title": "Kalki 2898 AD",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Kalki_2898_AD.jpg/220px-Kalki_2898_AD.jpg",
+            "description": "Following the Kurukshetra War, Ashwatthama attempts to kill Uttar\u0101's unborn child. For committing the act, Krishna, the 8th avatar of Vishnu, curses him to roam the earth as an immortal and witness humanity's misery as a result of societal and moral deterioration during the Kali Yuga",
+            "genre": "Action,Thriller,Adventure,Science,",
+            "rating": 7.1,
+            "year": 2024,
+            "playLink": "https://youtu.be/tdSWciABBDs?si=BV4Hp68CvG63zvWu",
+            "downloadLink": "https://youtu.be/tdSWciABBDs?si=BV4Hp68CvG63zvWu",
+            "id": 1
+        }
+    ]
+}
