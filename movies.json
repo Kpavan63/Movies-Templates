@@ -170,11 +170,11 @@
             "id": 13
         },
         {
-            "title": "Steel Wings",
-            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Steel_Wings_2024.jpg/220px-Steel_Wings_2024.jpg",
+            "title": "Real Steel",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/2/22/Real_Steel_Poster.jpg/220px-Real_Steel_Poster.jpg",
             "description": "An ex-pilot is recruited to lead a team of elite fighters in a mission to save the world",
             "genre": "Action, Adventure",
-            "rating": 7.6,
+            "rating": 9.6,
             "year": 2024,
             "size": 540,
             "trailerLink": "https://youtu.be/example_trailer_6",
@@ -184,7 +184,7 @@
         },
         {
             "title": "Lost City of Gold",
-            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/5/57/Lost_City_of_Gold.jpg/220px-Lost_City_of_Gold.jpg",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/2/29/Dora_and_the_Lost_City_of_Gold_poster.jpg/220px-Dora_and_the_Lost_City_of_Gold_poster.jpg",
             "description": "An archaeologist and his team set out to find a legendary city filled with treasures",
             "genre": "Adventure, Mystery",
             "rating": 8.2,
@@ -197,7 +197,7 @@
         },
         {
             "title": "Whispers in the Dark",
-            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/6/60/Whispers_in_the_Dark.jpg/220px-Whispers_in_the_Dark.jpg",
+            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Whispers_in_the_dark_poster.jpg/220px-Whispers_in_the_dark_poster.jpg",
             "description": "A young woman hears voices from a parallel dimension and tries to uncover the truth",
             "genre": "Horror, Mystery",
             "rating": 6.9,
@@ -210,7 +210,7 @@
         },
         {
             "title": "The Last Guardian",
-            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/The_Last_Guardian_2024.jpg/220px-The_Last_Guardian_2024.jpg",
+            "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsOHZYK8XdAc6CdIOqwmKSWuZtlRoqY6By0CFfsFDlykA-DDH6lxdsx2abKkFggptTMEg&usqp=CAU",
             "description": "A soldier finds himself protecting a child prophesized to end an ancient curse",
             "genre": "Fantasy, Adventure",
             "rating": 7.8,
@@ -236,7 +236,7 @@
         },
         {
             "title": "Blood Moon Rising",
-            "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Blood_Moon_Rising.jpg/220px-Blood_Moon_Rising.jpg",
+            "poster": "https://static.wixstatic.com/media/5c0336_f5017aaa24b5498a8c60fd8ee5363479~mv2.jpg/v1/fill/w_233,h_394,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/BMRCOVER97C.jpg",
             "description": "A vampire hunter faces an army of the undead during a rare lunar event",
             "genre": "Horror, Action",
             "rating": 6.8,
