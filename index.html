@@ -454,8 +454,18 @@
                 cursor: pointer;
             }
 
-           .movies-grid {
-             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+           /* Medium devices (M) */
+           @media only screen and (min-width: 480px) and (max-width: 767px) {
+             .movies-grid {
+               grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+             }
+           }
+           
+           /* Small devices (S) */
+           @media only screen and (min-width: 320px) and (max-width: 479px) {
+             .movies-grid {
+               grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+             }
            }
             .movie-poster img {
               width: 100%;
