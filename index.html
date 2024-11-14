@@ -454,9 +454,20 @@
                 cursor: pointer;
             }
 
-            .movies-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
+           .movies-grid {
+             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+           }
+           
+           /* Small devices (e.g. mobile phones) */
+           @media only screen and (max-width: 600px) {
+             .movies-grid {
+               grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+               height: 700px; /* Fixed height for small devices */
+               overflow-y: auto; /* Add this line */
+             }
+           }
+
+
             .movie-poster img {
               width: 100%;
               height: 250px;
