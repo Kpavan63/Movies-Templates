@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Video Player with Timer and Animation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            display: none; /* Initially hidden */
+        }
+
+        .movie-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            color: white;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Aspect ratio 16:9 */
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .warning-msg {
+            text-align: center;
+            font-size: 12px;
+            color: #ffdd57;
+            padding: 5px;
+        }
+
+        .report-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #f64f59;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .fullscreen-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ffdd57;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Mobile view adjustments */
+        @media (max-width: 600px) {
+            .movie-title {
+                font-size: 18px;
+            }
+            .warning-msg {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="background-animation"></div>
+    <div class="video-container" id="videoContainer">
+        <div class="movie-title">Your Movie Title</div>
+        <div class="video-wrapper">
+            <iframe src="https://www.4shared.com/web/embed/file/I-_W0jeege" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        </div>
+        <div class="warning-msg" id="warningMessage">Warning: This video may contain content not suitable for all viewers.</div>
+      
+        <button class="fullscreen-btn" id="fullscreenBtn">Go Fullscreen</button>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tengbao/vanta@latest/dist/vanta.waves.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Vanta.js Waves background animation
+            VANTA.WAVES({
+                el: "#background-animation",
+                color: 0x1d1d42,
+                shininess: 50,
+                waveHeight: 20,
+                waveSpeed: 1,
+                zoom: 1
+            });
+
+            // SweetAlert with a timer and animated circle
+            let timerValue = 5;
+            Swal.fire({
+                title: 'Fetching movie...',
+                html: `<div id="timerCircle" style="width: 80px; height: 80px; margin: auto;"></div><br>Please wait, loading in <span id="timer">${timerValue}</span> seconds...`,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    // Start circular animation
+                    anime({
+                        targets: '#timerCircle',
+                        borderRadius: ['0%', '50%'],
+                        easing: 'easeInOutSine',
+                        duration: 800,
+                        direction: 'alternate',
+                        loop: true,
+                        background: ['#f64f59', '#c471ed', '#12c2e9']
+                    });
+
+                    // Countdown timer update
+                    const timerElement = document.getElementById('timer');
+                    const countdown = setInterval(() => {
+                        timerValue--;
+                        timerElement.textContent = timerValue;
+                        if (timerValue <= 0) {
+                            clearInterval(countdown);
+                            Swal.close();
+                            document.getElementById('videoContainer').style.display = 'block';
+
+                            // Show the full-screen prompt once the timer ends
+                            Swal.fire({
+                                title: 'Best Experience!',
+                                text: 'For the best experience, please press the full-screen button below.',
+                                icon: 'info',
+                                confirmButtonText: 'Got it!',
+                                didOpen: () => {
+                                    const fullscreenBtn = document.getElementById('fullscreenBtn');
+                                    fullscreenBtn.style.display = 'block'; // Show the fullscreen button
+                                    fullscreenBtn.addEventListener('click', () => {
+                                        document.querySelector('iframe').requestFullscreen(); // Activate fullscreen
+                                    });
+                                }
+                            });
+                        }
+                    }, 1000);
+                }
+            });
+
+            // Add functionality for reporting an issue
+            const reportBtn = document.getElementById('reportBtn');
+            reportBtn.addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Report Issue',
+                    text: 'If the video is not working, please report the issue and we will resolve it.',
+                    icon: 'warning',
+                    input: 'textarea',
+                    inputPlaceholder: 'Describe the issue...',
+                    confirmButtonText: 'Submit',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancel',
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Please describe the issue!';
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Here you would normally send the report data to your server
+                        Swal.fire('Thank you!', 'Your report has been submitted.', 'success');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
