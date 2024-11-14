@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
     <style>
         :root {
             --primary-color: #e50914;
@@ -197,7 +199,7 @@
 
         .movies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 1.5rem;
         }
 
@@ -220,7 +222,7 @@
 
         .movie-poster img {
             width: 100%;
-            height: auto;
+            height: 300px;
             display: block;
         }
 
@@ -296,6 +298,7 @@
         .movie-details-title {
             color:red;
             font-size: 2rem;
+            margin-top: -20px;
             margin-bottom: 1rem;
         }
 
@@ -311,6 +314,27 @@
             display: flex;
             gap: 1rem;
         }
+        .movie-details-links {
+          display: flex;
+          gap: 15px;  /* Adjust the spacing between buttons */
+          justify-content: center; /* Center the buttons horizontally */
+          margin-top: 15px;
+      }
+      
+      .movie-details-links .btn {
+          display: flex;
+          align-items: center;
+          padding: 10px 20px;
+          font-size: 14px;
+          text-transform: uppercase;
+          border-radius: 30px;
+          gap: 4px;  /* Adjust spacing between icon and text */
+      }
+      
+      .movie-details-links .btn svg {
+          margin-right: 8px; /* Space between icon and text */
+      }
+      
 
         footer {
             background-color: #000;
@@ -358,6 +382,32 @@
             color: var(--text-color);
             font-size: 1.5rem;
         }
+        /* Rating Stars */
+      .movie-details-rating {
+        font-size: 40px;
+        color: gold;
+      }
+
+      .movie-details-rating .star {
+        margin-right: 5px;
+      }
+
+      /* Genre Labels */
+      .movie-details-genres {
+        margin-top: 10px;
+      }
+
+.movie-details-genres .genre-label {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 
         @media (max-width: 768px) {
             .mobile-menu-toggle {
@@ -407,6 +457,11 @@
             .movies-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
+            .movie-poster img {
+              width: 100%;
+              height: 250px;
+              display: block;
+          }
 
             .movie-details-content {
                 text-align: center;
@@ -431,7 +486,15 @@
             .movie-details-text {
                 padding-top: 1rem;
             }
+            .movie-details-links {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 15px;  /* Adjust the spacing between buttons */
+              justify-content: center; /* Center the buttons horizontally */
+              margin-top: 15px;
+          }
         }
+
 
         @media (min-width: 769px) {
             .mobile-menu-toggle {
@@ -480,24 +543,59 @@
  
     
 
-    <div id="movie-details" class="movie-details">
-        <div class="movie-details-content">
-            <span class="movie-details-close" id="movie-details-close">&times;</span>
-            <div class="movie-details-info">
-                <img id="movie-details-poster" class="movie-details-poster" src="" alt="Movie Poster">
-                <div class="movie-details-text">
-                    <h2 id="movie-details-title" class="movie-details-title"></h2>
-                    <p id="movie-details-meta" class="movie-details-meta"></p>
-                    <p id="movie-details-description" class="movie-details-description"></p>
-                    <div class="movie-details-links">
-                        <a href="#" id="movie-details-play" class="btn btn-primary"><i class="fas fa-play"></i> Play</a>
-                        <a href="#" id="movie-details-trailer" class="btn"><i class="fas fa-film"></i> Trailer</a>
-                        <a href="#" id="movie-details-download" class="btn"><i class="fas fa-download"></i> Download</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <div id="movie-details" class="movie-details">
+          <div class="movie-details-content">
+              <span class="movie-details-close" id="movie-details-close">&times;</span>
+              <div class="movie-details-info">
+                  <img id="movie-details-poster" class="movie-details-poster" src="" alt="Movie Poster">
+                  <div class="movie-details-text">
+                      <h2 id="movie-details-title" class="movie-details-title"></h2>
+      
+                      <!-- Rating Section with Stars -->
+                      <div id="movie-details-rating" class="movie-details-rating">
+                          <span class="star">&#9733;</span>
+                          <span class="star">&#9733;</span>
+                          <span class="star">&#9733;</span>
+                          <span class="star">&#9733;</span>
+                          <span class="star">&#9734;</span> <!-- Empty Star -->
+                      </div>
+      
+                      <!-- Genre Labels -->
+                      <div id="movie-details-genres" class="movie-details-genres">
+                          <span class="genre-label">Action</span>
+                          <span class="genre-label">Drama</span>
+                          <span class="genre-label">Sci-Fi</span>
+                      </div>
+                      <br>
+                      <p id="movie-details-meta" class="movie-details-meta"></p>
+                      <p id="movie-details-description" class="movie-details-description"></p>
+                      <div class="movie-details-links">
+                          <a href="#" id="movie-details-play" class="btn btn-primary">
+                              <!-- SVG Play Icon -->
+                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
+                                  <path d="M11.596 7.406L7.156 4.38A1 1 0 0 0 6 5.08v5.842a1 1 0 0 0 1.156.698l4.44-3.026a1 1 0 0 0 0-1.688z"/>
+                                  <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm0 15a7 7 0 1 1 7-7 7 7 0 0 1-7 7z"/>
+                              </svg> Play
+                          </a>
+                          <a href="#" id="movie-details-trailer" class="btn">
+                              <!-- SVG Trailer Icon -->
+                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" class="bi bi-youtube" viewBox="0 0 16 16">
+                                <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                              </svg> Trailer
+                          </a>
+                          <a href="#" id="movie-details-download" class="btn">
+                              <!-- SVG Download Icon -->
+                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="Green" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                                <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383"/>
+                                <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708z"/>
+                              </svg> Download
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
 
     
 
@@ -527,138 +625,174 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
-        let movies = [];
-
-        async function fetchMovieData() {
-            try {
-                const response = await fetch('movies.json');
-                const data = await response.json();
-                movies = data.allMovies;
-                initializeApp();
-            } catch (error) {
-                console.error('Error fetching movie data:', error);
-            }
-        }
-
-        function createMovieCard(movie) {
-            return `
-                <div class="movie-card" data-movie-id="${movie.id}">
-                    <div class="movie-poster">
-                        <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
-                    </div>
-                    
-                </div>
-            `;
-        }
-
-
-        function displayMovies(moviesToShow) {
-            const moviesGrid = document.getElementById('movies-grid');
-            moviesGrid.innerHTML = '';
-            moviesToShow.forEach(movie => {
-                moviesGrid.innerHTML += createMovieCard(movie);
-            });
-        }
-
-        function searchMovies(searchTerm) {
-            const filteredMovies = movies.filter(movie =>
-                movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                movie.genre.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-            displayMovies(filteredMovies);
-        }
-
-        function showMovieDetails(movieId) {
-            const movie = movies.find(m => m.id === movieId);
-            if (movie) {
-                document.getElementById('movie-details-poster').src = movie.poster;
-                document.getElementById('movie-details-title').textContent = movie.title;
-                document.getElementById('movie-details-meta').textContent = `${movie.year} | ${movie.genre} | Rating: ${movie.rating}/10`;
-                document.getElementById('movie-details-description').textContent = movie.description;
-                document.getElementById('movie-details-play').href = movie.playLink;
-                document.getElementById('movie-details-trailer').href = movie.trailerLink;
-                
-                startDownload(movie);
-
-                document.getElementById('movie-details').style.display = 'flex';
-            }
-        }
-
-        function startDownload(movie) {
-            const downloadLink = document.getElementById('movie-details-download');
-            downloadLink.href = movie.downloadLink;
-            downloadLink.setAttribute('download', movie.title);
-        }
-
-        function initializeApp() {
-
-            // Display all movies in the grid
-            displayMovies(movies);
-
-            // Event listeners for movie cards
-            document.getElementById('movies-grid').addEventListener('click', (e) => {
-                const movieCard = e.target.closest('.movie-card');
-                if (movieCard) {
-                    const movieId = parseInt(movieCard.getAttribute('data-movie-id'));
-                    showMovieDetails(movieId);
-                }
-            });
-
-            // Close movie details
-            document.getElementById('movie-details-close').addEventListener('click', () => {
-                document.getElementById('movie-details').style.display = 'none';
-            });
-
-            // Search functionality
-            const searchInput = document.getElementById('side-nav-search-input');
-            const searchButton = document.getElementById('side-nav-search-button');
-
-            searchButton.addEventListener('click', () => {
-                const searchTerm = searchInput.value;
-                searchMovies(searchTerm);
-            });
-
-            searchInput.addEventListener('keyup', (event) => {
-                if (event.key === 'Enter') {
-                    const searchTerm = searchInput.value;
-                    searchMovies(searchTerm);
-                }
-            });
-
-            // Mobile menu toggle
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const navMenu = document.getElementById('nav-menu');
-
-            mobileMenuToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('show');
-            });
-
-            // Side nav toggle
-            const sideNavToggle = document.getElementById('side-nav-toggle');
-            const sideNav = document.getElementById('side-nav');
-            const sideNavClose = document.getElementById('side-nav-close');
-
-            sideNavToggle.addEventListener('click', () => {
-                sideNav.classList.add('open');
-            });
-
-            sideNavClose.addEventListener('click', () => {
-                sideNav.classList.remove('open');
-            });
-
-            // Header scroll effect
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-        }
-
-        // Fetch movie data and initialize the app
-        fetchMovieData();
-    </script>
+      let movies = [];
+  
+      async function fetchMovieData() {
+          try {
+              const response = await fetch('movies.json');
+              const data = await response.json();
+              movies = data.allMovies;
+              initializeApp();
+          } catch (error) {
+              console.error('Error fetching movie data:', error);
+          }
+      }
+  
+      function createMovieCard(movie) {
+          return `
+              <div class="movie-card" data-movie-id="${movie.id}">
+                  <div class="movie-poster">
+                      <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                  </div>
+                  <h3 class="movie-title" style="display:none">${movie.title}</h3>
+              </div>
+          `;
+      }
+  
+      function displayMovies(moviesToShow) {
+          const moviesGrid = document.getElementById('movies-grid');
+          moviesGrid.innerHTML = '';
+          moviesToShow.forEach(movie => {
+              moviesGrid.innerHTML += createMovieCard(movie);
+          });
+      }
+  
+      function searchMovies(searchTerm) {
+          const filteredMovies = movies.filter(movie =>
+              movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              movie.genre.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          displayMovies(filteredMovies);
+      }
+  
+      function showMovieDetails(movieId) {
+          const movie = movies.find(m => m.id === movieId);
+          if (movie) {
+              document.getElementById('movie-details-poster').src = movie.poster;
+              document.getElementById('movie-details-title').textContent = movie.title;
+              document.getElementById('movie-details-meta').textContent = `${movie.year} | ${movie.genre} | Rating: ${movie.rating}/10`;
+              document.getElementById('movie-details-description').textContent = movie.description;
+              document.getElementById('movie-details-play').href = movie.playLink;
+              document.getElementById('movie-details-trailer').href = movie.trailerLink;
+              startDownload(movie);
+  
+              // Set Rating Stars
+              setRating(movie.rating);
+  
+              // Set Genres
+              setGenres(movie.genre.split(','));
+  
+              document.getElementById('movie-details').style.display = 'flex';
+          }
+      }
+  
+      function startDownload(movie) {
+          const downloadLink = document.getElementById('movie-details-download');
+          downloadLink.href = movie.downloadLink;
+          downloadLink.setAttribute('download', movie.title);
+      }
+  
+      function initializeApp() {
+          // Display all movies in the grid
+          displayMovies(movies);
+  
+          // Event listeners for movie cards
+          document.getElementById('movies-grid').addEventListener('click', (e) => {
+              const movieCard = e.target.closest('.movie-card');
+              if (movieCard) {
+                  const movieId = parseInt(movieCard.getAttribute('data-movie-id'));
+                  showMovieDetails(movieId);
+              }
+          });
+  
+          // Close movie details
+          document.getElementById('movie-details-close').addEventListener('click', () => {
+              document.getElementById('movie-details').style.display = 'none';
+          });
+  
+          // Search functionality
+          const searchInput = document.getElementById('side-nav-search-input');
+          const searchButton = document.getElementById('side-nav-search-button');
+  
+          searchButton.addEventListener('click', () => {
+              const searchTerm = searchInput.value;
+              searchMovies(searchTerm);
+          });
+  
+          searchInput.addEventListener('keyup', (event) => {
+              if (event.key === 'Enter') {
+                  const searchTerm = searchInput.value;
+                  searchMovies(searchTerm);
+              }
+          });
+  
+          // Mobile menu toggle
+          const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+          const navMenu = document.getElementById('nav-menu');
+  
+          mobileMenuToggle.addEventListener('click', () => {
+              navMenu.classList.toggle('show');
+          });
+  
+          // Side nav toggle
+          const sideNavToggle = document.getElementById('side-nav-toggle');
+          const sideNav = document.getElementById('side-nav');
+          const sideNavClose = document.getElementById('side-nav-close');
+  
+          sideNavToggle.addEventListener('click', () => {
+              sideNav.classList.add('open');
+          });
+  
+          sideNavClose.addEventListener('click', () => {
+              sideNav.classList.remove('open');
+          });
+  
+          // Header scroll effect
+          const header = document.getElementById('header');
+          window.addEventListener('scroll', () => {
+              if (window.scrollY > 50) {
+                  header.classList.add('scrolled');
+              } else {
+                  header.classList.remove('scrolled');
+              }
+          });
+      }
+  
+      // Example of background animation using Anime.js
+      anime({
+        targets: '#movie-details',
+        backgroundColor: ['#000000','#141414'], // Add as many colors as needed
+        duration: 3000,
+        easing: 'easeInOutQuad',
+        loop: true
+    });
+  
+      // Set Rating Stars dynamically (out of 5 stars)
+      function setRating(rating) {
+          const starsContainer = document.getElementById('movie-details-rating');
+          starsContainer.innerHTML = ''; // Clear existing stars
+          for (let i = 0; i < 5; i++) {
+              const star = document.createElement('span');
+              star.innerHTML = i < rating ? '&#9733;' : '&#9734;'; // Filled or empty star
+              starsContainer.appendChild(star);
+          }
+      }
+  
+      // Set Genres dynamically
+      function setGenres(genres) {
+          const genresContainer = document.getElementById('movie-details-genres');
+          genresContainer.innerHTML = ''; // Clear existing genres
+          genres.forEach(genre => {
+              const genreElement = document.createElement('span');
+              genreElement.classList.add('genre-label');
+              genreElement.innerText = genre.trim(); // Add the genre
+              genresContainer.appendChild(genreElement);
+          });
+      }
+  
+      // Fetch movie data and initialize the app
+      fetchMovieData();
+  </script>
+  
 </body>
 </html>
