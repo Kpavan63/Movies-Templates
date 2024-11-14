@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Movie Bot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; /* Ensure no scrollbars */
+        }
+
+        #vanta-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensure it's behind content */
+        }
+
+        .movie-card {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        .timer-ring {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container for Vanta.js Net effect -->
+    <div id="vanta-background"></div>
+
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="movie-card rounded-lg shadow-xl p-8 max-w-md w-full text-white">
+            <h1 class="text-3xl font-bold text-center mb-6">i1Movies Bot</h1>
+            <div id="timer" class="flex justify-center mb-6" aria-live="polite"></div>
+            <div id="loading-message" class="text-center mb-4">
+                <p class="text-lg mb-2">Please wait, processing movie data... from <font style="color: rgb(255, 0, 0); font-size:20px; font-weight:bold">i1SERVER</font></p>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-in-out" style="width: 0%"></div>
+                </div>
+            </div>
+            <div id="success-message" class="text-center mb-4 hidden">
+                <p class="text-lg text-green-400 font-semibold">Movie data processed successfully!</p>
+            </div>
+            <a id="download-link" href="#" class="hidden bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded inline-block mt-4 transition duration-300 ease-in-out transform hover:scale-105 w-full text-center">
+                Download Movies
+            </a>
+            <div id="movie-recommendation" class="mt-6 text-center">
+                <h2 class="text-xl font-semibold mb-2">Today's Recommendation</h2>
+                <p id="movie-title" class="text-lg"></p>
+                <p id="movie-rating" class="text-sm mt-1"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- GSAP for animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- Three.js (required by Vanta.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Vanta.js for the background animation -->
+    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.10/dist/vanta.net.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Vanta.js Net effect
+            VANTA.NET({
+                el: '#vanta-background',  // Apply to the new div with id 'vanta-background'
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                color: 0x23a6d5,
+                backgroundColor: 0x101010,
+                points: 12.0,
+                maxDistance: 20.0,
+                spacing: 18.0
+            });
+
+            const timerDuration = 10;
+            let timeLeft = timerDuration;
+            const timerElement = document.getElementById('timer');
+            const loadingMessage = document.getElementById('loading-message');
+            const successMessage = document.getElementById('success-message');
+            const downloadLink = document.getElementById('download-link');
+            const progressBar = document.getElementById('progress-bar');
+            const movieRecommendation = document.getElementById('movie-recommendation');
+            const movieTitle = document.getElementById('movie-title');
+            const movieRating = document.getElementById('movie-rating');
+
+            function createTimerSVG() {
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('class', 'w-32 h-32');
+                svg.setAttribute('viewBox', '0 0 100 100');
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('class', 'timer-ring');
+                circle.setAttribute('cx', '50');
+                circle.setAttribute('cy', '50');
+                circle.setAttribute('r', '45');
+                circle.setAttribute('fill', 'transparent');
+                circle.setAttribute('stroke', '#4CAF50');
+                circle.setAttribute('stroke-width', '7');
+                circle.setAttribute('stroke-dasharray', '283');
+                circle.setAttribute('stroke-dashoffset', '0');
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', '50');
+                text.setAttribute('y', '50');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'central');
+                text.setAttribute('font-size', '24');
+                text.setAttribute('fill', 'white');
+
+                svg.appendChild(circle);
+                svg.appendChild(text);
+                timerElement.appendChild(svg);
+
+                return { circle, text };
+            }
+
+            const { circle, text } = createTimerSVG();
+
+            function updateTimer() {
+                const progress = (timerDuration - timeLeft) / timerDuration;
+                const dashoffset = 283 * (1 - progress);
+                circle.style.strokeDashoffset = dashoffset;
+                text.textContent = timeLeft;
+
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    setTimeout(updateTimer, 1000);
+                } else {
+                    loadingMessage.classList.add('hidden');
+                    successMessage.classList.remove('hidden');
+                    downloadLink.classList.remove('hidden');
+                    gsap.to(downloadLink, { scale: 1.1, yoyo: true, repeat: -1, duration: 0.8 });
+                    fetchMovieRecommendation();
+                }
+            }
+
+            updateTimer();
+
+            // Progress bar animation
+            gsap.to(progressBar, {
+                width: '100%',
+                duration: timerDuration,
+                ease: 'linear'
+            });
+
+            // Movie recommendation feature
+            function fetchMovieRecommendation() {
+                // Simulating API call
+                setTimeout(() => {
+                    const movies = [
+                        { title: "The Shawshank Redemption", rating: 9.3 },
+                        { title: "The Godfather", rating: 9.2 },
+                        { title: "The Dark Knight", rating: 9.0 },
+                        { title: "12 Angry Men", rating: 8.9 },
+                        { title: "Schindler's List", rating: 8.9 }
+                    ];
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    movieTitle.textContent = randomMovie.title;
+                    movieRating.textContent = `Rating: ${randomMovie.rating}/10`;
+                    gsap.from(movieRecommendation, { opacity: 0, y: 20, duration: 0.5 });
+                }, 1000);
+            }
+
+            // Download link functionality
+            downloadLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Download started! (This is a simulation)');
+            });
+        });
+    </script>
+</body>
+</html>
