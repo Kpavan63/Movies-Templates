@@ -637,174 +637,204 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
-      let movies = [];
-  
-      async function fetchMovieData() {
+        let movies = [];
+      
+        async function fetchMovieData() {
           try {
-              const response = await fetch('movies.json');
-              const data = await response.json();
-              movies = data.allMovies;
-              initializeApp();
+            const response = await fetch('movies.json');
+            const data = await response.json();
+            movies = data.allMovies;
+            initializeApp();
           } catch (error) {
-              console.error('Error fetching movie data:', error);
+            console.error('Error fetching movie data:', error);
           }
-      }
-  
-      function createMovieCard(movie) {
+        }
+      
+        function createMovieCard(movie) {
           return `
-              <div class="movie-card" data-movie-id="${movie.id}">
-                  <div class="movie-poster">
-                      <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
-                  </div>
-                  <h3 class="movie-title" style="display:none">${movie.title}</h3>
+            <div class="movie-card" data-movie-id="${movie.id}">
+              <div class="movie-poster">
+                <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
               </div>
+              <h3 class="movie-title" style="display:none">${movie.title}</h3>
+            </div>
           `;
-      }
-  
-      function displayMovies(moviesToShow) {
+        }
+      
+        function displayMovies(moviesToShow) {
           const moviesGrid = document.getElementById('movies-grid');
           moviesGrid.innerHTML = '';
           moviesToShow.forEach(movie => {
-              moviesGrid.innerHTML += createMovieCard(movie);
+            moviesGrid.innerHTML += createMovieCard(movie);
           });
-      }
-  
-      function searchMovies(searchTerm) {
+        }
+      
+        function searchMovies(searchTerm) {
           const filteredMovies = movies.filter(movie =>
-              movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              movie.genre.toLowerCase().includes(searchTerm.toLowerCase())
+            movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            movie.genre.toLowerCase().includes(searchTerm.toLowerCase())
           );
           displayMovies(filteredMovies);
-      }
-  
-      function showMovieDetails(movieId) {
+        }
+      
+        function showMovieDetails(movieId) {
           const movie = movies.find(m => m.id === movieId);
           if (movie) {
-              document.getElementById('movie-details-poster').src = movie.poster;
-              document.getElementById('movie-details-title').textContent = movie.title;
-              document.getElementById('movie-details-meta').textContent = `${movie.year} | ${movie.genre} | Rating: ${movie.rating}/10`;
-              document.getElementById('movie-details-description').textContent = movie.description;
-              document.getElementById('movie-details-play').href = movie.playLink;
-              document.getElementById('movie-details-trailer').href = movie.trailerLink;
-              startDownload(movie);
-  
-              // Set Rating Stars
-              setRating(movie.rating);
-  
-              // Set Genres
-              setGenres(movie.genre.split(','));
-  
-              document.getElementById('movie-details').style.display = 'flex';
+            document.getElementById('movie-details-poster').src = movie.poster;
+            document.getElementById('movie-details-title').textContent = movie.title;
+            document.getElementById('movie-details-meta').textContent = `${movie.year} | ${movie.genre} | Rating: ${movie.rating}/10`;
+            document.getElementById('movie-details-description').textContent = movie.description;
+            document.getElementById('movie-details-trailer').href = movie.trailerLink;
+            startDownload(movie);
+      
+            // Set Rating Stars
+            setRating(movie.rating);
+      
+            // Set Genres
+            setGenres(movie.genre.split(','));
+      
+            document.getElementById('movie-details').style.display = 'flex';
+      
+            // Play button event listener
+            const playButton = document.getElementById('movie-details-play');
+            if (playButton) {
+              playButton.addEventListener('click', (event) => {
+                event.preventDefault();  // Prevent default anchor behavior
+                console.log('Play button clicked, redirecting to:', movie.playLink);
+                if (movie.playLink) {
+                  window.location.href = movie.playLink;  // Redirect to play page
+                } else {
+                  console.error('Play link is missing for', movie.title);
+                }
+              });
+            }
+      
+            // Download button event listener
+            const downloadButton = document.getElementById('movie-details-download');
+            if (downloadButton) {
+              downloadButton.addEventListener('click', (event) => {
+                event.preventDefault();  // Prevent default anchor behavior
+                console.log('Download button clicked, redirecting to:', movie.downloadLink);
+                if (movie.downloadLink) {
+                  window.location.href = movie.downloadLink;  // Redirect to download page
+                } else {
+                  console.error('Download link is missing for', movie.title);
+                }
+              });
+            }
           }
-      }
-  
-      function startDownload(movie) {
+        }
+      
+        function startDownload(movie) {
           const downloadLink = document.getElementById('movie-details-download');
-          downloadLink.href = movie.downloadLink;
-          downloadLink.setAttribute('download', movie.title);
-      }
-  
-      function initializeApp() {
+          if (downloadLink) {
+            downloadLink.href = movie.downloadLink;
+            downloadLink.setAttribute('download', movie.title);
+          }
+        }
+      
+        function initializeApp() {
           // Display all movies in the grid
           displayMovies(movies);
-  
+      
           // Event listeners for movie cards
           document.getElementById('movies-grid').addEventListener('click', (e) => {
-              const movieCard = e.target.closest('.movie-card');
-              if (movieCard) {
-                  const movieId = parseInt(movieCard.getAttribute('data-movie-id'));
-                  showMovieDetails(movieId);
-              }
+            const movieCard = e.target.closest('.movie-card');
+            if (movieCard) {
+              const movieId = parseInt(movieCard.getAttribute('data-movie-id'));
+              showMovieDetails(movieId);
+            }
           });
-  
+      
           // Close movie details
           document.getElementById('movie-details-close').addEventListener('click', () => {
-              document.getElementById('movie-details').style.display = 'none';
+            document.getElementById('movie-details').style.display = 'none';
           });
-  
+      
           // Search functionality
           const searchInput = document.getElementById('side-nav-search-input');
           const searchButton = document.getElementById('side-nav-search-button');
-  
+      
           searchButton.addEventListener('click', () => {
+            const searchTerm = searchInput.value;
+            searchMovies(searchTerm);
+          });
+      
+          searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
               const searchTerm = searchInput.value;
               searchMovies(searchTerm);
+            }
           });
-  
-          searchInput.addEventListener('keyup', (event) => {
-              if (event.key === 'Enter') {
-                  const searchTerm = searchInput.value;
-                  searchMovies(searchTerm);
-              }
-          });
-  
+      
           // Mobile menu toggle
           const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
           const navMenu = document.getElementById('nav-menu');
-  
+      
           mobileMenuToggle.addEventListener('click', () => {
-              navMenu.classList.toggle('show');
+            navMenu.classList.toggle('show');
           });
-  
+      
           // Side nav toggle
           const sideNavToggle = document.getElementById('side-nav-toggle');
           const sideNav = document.getElementById('side-nav');
           const sideNavClose = document.getElementById('side-nav-close');
-  
+      
           sideNavToggle.addEventListener('click', () => {
-              sideNav.classList.add('open');
+            sideNav.classList.add('open');
           });
-  
+      
           sideNavClose.addEventListener('click', () => {
-              sideNav.classList.remove('open');
+            sideNav.classList.remove('open');
           });
-  
+      
           // Header scroll effect
           const header = document.getElementById('header');
           window.addEventListener('scroll', () => {
-              if (window.scrollY > 50) {
-                  header.classList.add('scrolled');
-              } else {
-                  header.classList.remove('scrolled');
-              }
+            if (window.scrollY > 50) {
+              header.classList.add('scrolled');
+            } else {
+              header.classList.remove('scrolled');
+            }
           });
-      }
-  
-      // Example of background animation using Anime.js
-      anime({
-        targets: '#movie-details',
-        backgroundColor: ['#000000','#141414'], // Add as many colors as needed
-        duration: 3000,
-        easing: 'easeInOutQuad',
-        loop: true
-    });
-  
-      // Set Rating Stars dynamically (out of 5 stars)
-      function setRating(rating) {
+        }
+      
+        // Example of background animation using Anime.js
+        anime({
+          targets: '#movie-details',
+          backgroundColor: ['#000000','#141414'], // Add as many colors as needed
+          duration: 3000,
+          easing: 'easeInOutQuad',
+          loop: true
+        });
+      
+        // Set Rating Stars dynamically (out of 5 stars)
+        function setRating(rating) {
           const starsContainer = document.getElementById('movie-details-rating');
           starsContainer.innerHTML = ''; // Clear existing stars
           for (let i = 0; i < 5; i++) {
-              const star = document.createElement('span');
-              star.innerHTML = i < rating ? '&#9733;' : '&#9734;'; // Filled or empty star
-              starsContainer.appendChild(star);
+            const star = document.createElement('span');
+            star.innerHTML = i < rating ? '&#9733;' : '&#9734;'; // Filled or empty star
+            starsContainer.appendChild(star);
           }
-      }
-  
-      // Set Genres dynamically
-      function setGenres(genres) {
+        }
+      
+        // Set Genres dynamically
+        function setGenres(genres) {
           const genresContainer = document.getElementById('movie-details-genres');
           genresContainer.innerHTML = ''; // Clear existing genres
           genres.forEach(genre => {
-              const genreElement = document.createElement('span');
-              genreElement.classList.add('genre-label');
-              genreElement.innerText = genre.trim(); // Add the genre
-              genresContainer.appendChild(genreElement);
+            const genreElement = document.createElement('span');
+            genreElement.classList.add('genre-label');
+            genreElement.innerText = genre.trim(); // Add the genre
+            genresContainer.appendChild(genreElement);
           });
-      }
-  
-      // Fetch movie data and initialize the app
-      fetchMovieData();
-  </script>
+        }
+      
+        // Fetch movie data and initialize the app
+        fetchMovieData();
+      </script>
+      
   
 </body>
 </html>
